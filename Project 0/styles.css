@@ -1,0 +1,148 @@
+.navbar {
+    background-color: #202124;
+    font-family: Arial, sans-serif;
+    color: white;
+}
+
+.navbar a{
+    margin: 5px;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+.navbar a:hover{
+    color: white;
+    text-decoration: underline;
+}
+
+body{
+    background-color: #202124;
+    font-family: Arial, sans-serif;
+}
+
+input{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 20px;
+    color: white;
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    object-fit: contain;
+}
+
+input[name = "q"]{
+    display: block;
+    background-color: #202124;
+    border: 1px solid white;
+    height: 40px;
+    width: 600px;
+    border-radius: 24px;
+    padding-left: 20px;
+}
+
+input[type="submit"]{
+    font-weight: 100;
+    border-radius: 5px;
+    background-color: #303134;
+    border: 1px solid #303134 ;
+    height: 40px;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+input[value="isch"]{
+    display: none;
+}
+
+.navbar-nav{
+    flex-direction: row;
+}
+
+#logopic{
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: 92px;
+    object-fit: contain;
+    text-align: center;
+}
+
+#mainpglinkpic{
+    height: 20px;
+}
+
+#img-container{
+    padding-top: 125px;
+}
+
+.center{
+    text-align: center;
+}
+
+.left{
+    text-align: left;
+}
+
+footer{
+    margin-top: 300px;
+    padding: 5px 0 5px 0;
+    background-color: #171717;
+    color: white;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+footer a{
+    margin: 5px;
+    font-size: 15px;
+    color: white;
+    text-decoration: none;
+}
+
+footer a:hover{
+    color: white;
+    text-decoration: underline;
+}
+
+h4{
+    color: lightcoral;
+}
+
+hr{
+    border: 1px solid white;
+}
+
+p{
+    color: white;
+    font-size: 16px;
+}
+
+.prompts{
+    color: whitesmoke;
+    display: inline;
+}
+
+.advpgfields{
+    background-color: #202124;
+    color: white;
+    border: 1px solid white;
+    width: 75%;
+    margin-left: 10px;
+    padding-left: 10px;
+    border-radius: 5px;
+}
+
+#advsearchbtn{
+    background-color: #8ab4f8;
+    color: black;
+    font-size: 13px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 40px;
+    font-weight: bold;
+}
