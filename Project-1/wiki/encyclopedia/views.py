@@ -36,7 +36,7 @@ def search(request):
     if substringentry == []:
         substringentry = None
     
-    return render(request, "encyclopedia/searchresult.html", {
+    return render(request, "encyclopedia/result.html", {
         "entries": substringentry
     })
     
@@ -53,21 +53,30 @@ def create(request):
         
         for i in entries:
             if title.lower() == i.lower():
-                return render(request, "encyclopedia/createerror.html")
+                return render(request, "encyclopedia/error.html",{
+                    "message":"Created page already exists", "code":"404"
+                })
         
         util.save_entry(title, content)
         return redirect(f'wiki/{title}')
         
     else:
-        return render(request, "encyclopedia/createnew.html")
+        return render(request, "encyclopedia/create.html")
     
 def edit(request):
     if request.method == "POST":
         title = request.POST["title"]
         content = request.POST["updatecontent"]
-        util.save_entry(title, content)
-        return redirect(f'wiki/{title}')
-    
+        entries = util.list_entries()
+        for i in entries:
+            if title.lower() == i.lower():
+                util.save_entry(title, content)
+                return redirect(f'wiki/{title}')
+            
+        return render(request, "encyclopedia/error.html",{
+            "message":"Cannot modify title while editing", "code":"400"
+        })
+                
     else:
         title = request.GET["title"]
         content = util.get_entry(title)
