@@ -7,18 +7,28 @@ code {
     white-space: pre;
 }
 
+li{
+    padding-top: 5px;
+}
+
 h1 {
     margin-top: 0px;
     padding-top: 20px;
 }
 
 textarea {
-    height: 90vh;
+    min-height: 60vh;
+    height: 70vh;
     width: 80%;
 }
 
+.btn{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
 .main {
-    padding: 10px;
+    padding: 20px;
 }
 
 .search {
@@ -29,8 +39,9 @@ textarea {
 
 .sidebar {
     background-color: #f0f0f0;
-    height: 100vh;
-    padding: 20px;
+    height: 95vh;
+    min-height: 90vh;
+    padding: 30px;
 }
 
 .sidebar h2 {

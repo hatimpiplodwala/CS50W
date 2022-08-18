@@ -1,0 +1,21 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    Edit
+{% endblock %}
+
+{% block body %}
+    <h1>Edit</h1>
+
+    <form action="{% url 'edit' %}" method="post">
+        {% csrf_token %}
+        <div>
+            <label for="fixtitle">Title: </label>
+            <input type="text" autocomplete="off" value={{title}} disabled><br>
+            <textarea id ="updatecontent" name = "updatecontent">{{content}}</textarea>
+        </div>
+        <div>
+            <button class="btn btn-primary" name = "title" value={{title}}>Save</button>
+        </div>
+    </form>
+{% endblock %}

@@ -9,6 +9,9 @@
         <h1>Error 404</h1>
         <p>Requested page was not found</p>
     {% else %}
+        <form action = "{% url 'edit' %}">
+            <button class="btn btn-primary" name="title" value={{title}}>Edit</button>
+        </form>
         {{content | safe}}
     {% endif %}
 {% endblock %}

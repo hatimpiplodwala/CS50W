@@ -44,4 +44,33 @@ def randomentry(request):
     entries = util.list_entries()
     randchoice = random.choice(entries)
     return redirect(f'wiki/{randchoice}')
+
+def create(request):
+    if request.method=="POST":
+        title = request.POST["title"]
+        content = request.POST["content"]
+        entries = util.list_entries()
+        
+        for i in entries:
+            if title.lower() == i.lower():
+                return render(request, "encyclopedia/createerror.html")
+        
+        util.save_entry(title, content)
+        return redirect(f'wiki/{title}')
+        
+    else:
+        return render(request, "encyclopedia/createnew.html")
     
+def edit(request):
+    if request.method == "POST":
+        title = request.POST["title"]
+        content = request.POST["updatecontent"]
+        util.save_entry(title, content)
+        return redirect(f'wiki/{title}')
+    
+    else:
+        title = request.GET["title"]
+        content = util.get_entry(title)
+        return render(request, "encyclopedia/edit.html", {
+            "title": title, "content": content
+        })
