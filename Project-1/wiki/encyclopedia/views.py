@@ -32,10 +32,7 @@ def search(request):
         
         elif q.lower() in i.lower():
             substringentry.append(i)
-                
-    if substringentry == []:
-        substringentry = None
-    
+            
     return render(request, "encyclopedia/result.html", {
         "entries": substringentry
     })
