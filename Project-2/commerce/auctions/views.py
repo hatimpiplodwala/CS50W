@@ -26,23 +26,29 @@ def index(request):
     checkbidprice()
     return render(request, "auctions/index.html",{
             "activeitems": Listing.objects.filter(status=1),
-            "categories": categories
     })
 
-def categoryindex(request, category):
+def category(request):
     checkbidprice()
-    if category == "All":
-        return redirect("/")
-    
-    elif category not in categories:
-        return render(request, "auctions/index.html",{
-            "message":"Requested category not found",
-            "categories": categories
-        })
+    if request.method=="POST":
+        category=request.POST["category"]
         
-    else:
-        return render(request, "auctions/index.html",{
-            "activeitems": Listing.objects.filter(status=1 ,category=category),
+        if category == "All":
+            return redirect("/")
+        
+        elif category not in categories:
+            return render(request, "auctions/categories.html",{
+                "message":"Requested category not found",
+                "categories": categories
+            })
+            
+        else:
+            return render(request, "auctions/index.html",{
+                "activeitems": Listing.objects.filter(status=1 ,category=category),
+            })
+        
+    else: 
+        return render(request, "auctions/categories.html",{
             "categories": categories
         })
 
@@ -105,7 +111,6 @@ def createlisting(request):
         description = request.POST["description"]
         if len(description) > 100:
             return render(request, "auctions/create.html",{
-                "categories": categories,
                 "selectable": selectable,
                 "message":"Description exceeded 100 characters"
             })
@@ -113,7 +118,6 @@ def createlisting(request):
         startbid= request.POST["startbid"]
         if not startbid.isnumeric() or float(startbid) < 0:
             return render(request, "auctions/create.html",{
-                "categories": categories,
                 "selectable": selectable,
                 "message":"Price fields should be numeric and greater than 0"
             })
@@ -122,7 +126,6 @@ def createlisting(request):
         category=request.POST["category"]
         if category not in selectable:
             return render(request, "auctions/create.html",{
-                "categories": categories,
                 "selectable": selectable,
                 "message":"Entered category is invalid"
             })
@@ -133,7 +136,6 @@ def createlisting(request):
         listing.save()
         
     return render(request, "auctions/create.html",{
-        "categories": categories,
         "selectable": selectable,
     })
     
@@ -142,8 +144,7 @@ def listing_view(request, i):
     listing=Listing.objects.get(id=i)
     if listing.status == 0:
         return render(request, "auctions/listing.html", {
-            "message": "Listing is closed",
-            "categories": categories
+            "message": "Listing is closed"
         })
         
     bidcount=Bid.objects.filter(item_id=i).count()
@@ -155,7 +156,7 @@ def listing_view(request, i):
         onwatchlist=None
     return render(request, "auctions/listing.html", {
         "listing": listing, "bidsmade": bidcount, "highestbider": maxbid,
-        "comments": comments, "onwatchlist": onwatchlist, "categories": categories
+        "comments": comments, "onwatchlist": onwatchlist
     })
 
 @login_required(redirect_field_name=None, login_url="/login")
@@ -169,7 +170,7 @@ def makebid(request, i):
         listing=Listing.objects.get(id=i)
         if listing.status == 0:
             return render(request, "auctions/listing.html", {
-                "message": "Listing is closed", "categories": categories
+                "message": "Listing is closed"
             })
         
         userbid=request.POST["bid"]
@@ -180,7 +181,7 @@ def makebid(request, i):
                 return render(request, "auctions/listing.html", {
                     "message":"Invalid bid amount. Must be greater than highest bid.",
                     "listing": listing, "bidsmade": bidcount, "highestbider": maxbid,
-                    "comments": comments, "onwatchlist": onwatchlist, "categories": categories
+                    "comments": comments, "onwatchlist": onwatchlist
                 })
                 
         else:
@@ -188,7 +189,7 @@ def makebid(request, i):
                 return render(request, "auctions/listing.html", {
                     "message":"Invalid bid amount. Must be greater than starting bid.",
                     "listing": listing, "bidsmade": bidcount, "highestbider": maxbid,
-                    "comments": comments, "onwatchlist": onwatchlist, "categories": categories
+                    "comments": comments, "onwatchlist": onwatchlist
                 })
         
         addbid = Bid(user_id=user_id, item_id=listing, amount=userbid)
@@ -230,8 +231,7 @@ def addcomment(request, i):
         listing=Listing.objects.get(id=i)
         if listing.status == 0:
             return render(request, "auctions/listing.html", {
-                "message": "Listing is closed",
-                "categories": categories
+                "message": "Listing is closed"
             })
             
         usercomment=request.POST["comment"]
@@ -241,13 +241,13 @@ def addcomment(request, i):
             return render(request, "auctions/listing.html", {
                 "message":"Comment exceeded 100 characters",
                 "listing": listing, "bidsmade": bidcount, "highestbider": maxbid,
-                "comments": comments, "onwatchlist": onwatchlist, "categories": categories
+                "comments": comments, "onwatchlist": onwatchlist
             })
         elif len(usercomment) == 0:
             return render(request, "auctions/listing.html", {
                 "message":"No comment provided",
                 "listing": listing, "bidsmade": bidcount, "highestbider": maxbid,
-                "comments": comments, "onwatchlist": onwatchlist, "categories": categories
+                "comments": comments, "onwatchlist": onwatchlist
             })
         
         addcomment=Comment(user_id=user_id, item_id=listing, comment=usercomment)
@@ -301,7 +301,7 @@ def viewwatchlist(request):
             watchlistdetails.append([listing, highestbider, bidcount])
             
         return render(request, "auctions/watchlist.html", {
-            "watchlist": watchlistdetails, "categories": categories
+            "watchlist": watchlistdetails
         })
 
 @login_required(redirect_field_name=None, login_url="/login")   
@@ -327,8 +327,7 @@ def viewwinsbids(request):
             
     return render(request, "auctions/winsandbids.html", {
             "bidlist": biddetails,
-            "winlist": windetails,
-            "categories": categories
+            "winlist": windetails
     })
     
 def viewmylistings(request):
@@ -342,5 +341,5 @@ def viewmylistings(request):
         listingdetails.append([i, highestbider, bidcount])
     
     return render(request, "auctions/mylisting.html", {
-            "listinglist": listingdetails, "categories": categories
+            "listinglist": listingdetails
         })

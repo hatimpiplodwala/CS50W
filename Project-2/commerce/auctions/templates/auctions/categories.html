@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container center">
+        <h3>Categories</h3>
+        <hr>
+        <form action="{% url 'category' %}" method="post">
+            {% csrf_token %}
+            <div id = "categorypage">
+                {% for i in categories%}
+                    <button name="category" value={{i}}>{{i}}</button>
+                {% empty %}
+                    <p>No categories</p>
+                {% endfor %}
+            </div>
+        <form>
+        <hr>
+    </div>
+
+{% endblock %}
