@@ -1,0 +1,92 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container left" id="listing">
+        {% if listing %}
+            <h3>{{listing.title}}</h3>
+            <hr>
+            <div class="clear-fix">
+                <img src={{listing.imageurl}} alt="Item-pic" class="mr-4 mb-4 float-left" width="300" height="300">
+                <div>
+                    <h5>Description: </h5>
+                    <p>{{listing.description}}</p>
+                    <p class="center">
+                        {% if highestbider %}
+                            Highest bid by: {{highestbider.user_id}} (amount: ${{highestbider.amount}}).
+                        {% endif %}
+                    </p>
+                    <p class="center">{{bidsmade}} bid(s) so far</p>
+                    {% if user.is_authenticated %}
+                        {% if user.id == listing.user_id_id %}
+                            <form action="{% url 'closebid' listing.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="center">
+                                    <input type="submit" class="btn btn-primary" value="Close Bid">
+                                </div>
+                            </form>
+                        {% else %}
+                            <form action="{% url 'makebid' listing.id %}" method="post">
+                                {% csrf_token %}
+                                <div class="center">
+                                    Make your bid:
+                                    <input type="number" name="bid" value = {{listing.currentprice}} min={{listing.currentprice}}>
+                                </div>
+                                <div class="center">
+                                    <input type="submit" class="btn btn-primary" value="Place Bid">
+                                </div>
+                            </form>
+                            <form class="center" action="{% url 'alterwatchlist' listing.id %}" method="post">
+                                {% csrf_token %}
+                                <button class="btn btn-primary">
+                                    {% if onwatchlist %}
+                                        Remove from Watchlist
+                                    {% else %}
+                                        Add to Watchlist
+                                    {% endif %}
+                                </button>
+                            </form>
+                        {% endif %}
+
+                    {% else %}
+                        <form action="{% url 'makebid' listing.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="center">
+                                Make your bid:
+                                <input type="number" name="bid" value = {{listing.currentprice}} min={{listing.currentprice}}>
+                            </div>
+                            <div class="center">
+                                <input type="submit" class="btn btn-primary" value="Place Bid">
+                            </div>
+                        </form>
+                    {% endif %}
+
+                </div>
+            </div>
+            <hr>
+            <h4>Comments :</h4>
+            {% for i in comments%}
+                <p>{{i.user_id}}: {{i.comment}}</p>
+            {% empty %}
+                <p>No comments</p>
+            {% endfor %}
+            {% if user.is_authenticated %}
+                <form action="{% url 'addcomment' listing.id %}" method="post">
+                    {% csrf_token %}
+                    <textarea cols="120" name = "comment" placeholder="Enter your comment: less than 100 characters" maxlength="100"></textarea><br>
+                    <input type="submit" class="btn btn-primary" value="Add Comment">
+                </form> 
+            {% endif %}
+        {% else %}
+            <h3>Error: 404</h3>
+            <hr>
+            <p>This listing is closed. No more bids</p>
+            <hr>
+        {% endif %}
+    </div>
+
+{% endblock %}

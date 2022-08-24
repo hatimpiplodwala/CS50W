@@ -1,0 +1,44 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <div class="container left" id="listing">
+        <h4>My Listings</h4>
+        <hr>
+        {% for i in listinglist %}
+            <div class="clear-fix">
+                <img src={{i.0.imageurl}} alt="Item-pic" class="mr-4 mb-4 float-left" width="300" height="300">
+                <div>
+                    <a href="{% url 'listing' i.0.id %}"><h3>{{i.0.title}}</h3></a>
+                    <h5>Description: </h5>
+                    <p>{{i.0.description}}</p>
+                    {% if i.0.status == 0 %}
+                        {% if i.1 %}
+                            <p>Listing has been closed. The Winner is {{i.1.user_id}} with highest bid of ${{i.1.amount}}.</p>
+                        {% else %}
+                            <p>Listing has been closed. No bids were made.</p>
+                        {% endif %}
+                    {% else %}
+                        <p class="center">
+                            {% if i.1 %}
+                                Highest bid by: {{i.1.user_id}} (amount: ${{i.1.amount}}).
+                            {% endif %}
+                        </p>
+                        <p class="center">{{i.2}} bid(s) so far</p>
+                        <form action="{% url 'closebid' i.0.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="center">
+                                <input type="submit" class="btn btn-primary" value="Close Bid">
+                            </div>
+                        </form>
+                    {% endif %}
+                </div>
+            </div>
+            <hr>
+        {% empty %}
+            <p>No listings created</p>
+            <hr>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    {% if message %}
+        <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+
+    <div class="container center">
+        <h3>Active Listings</h3>
+        <hr>
+        <div id = "listingpage">
+            {% for item in activeitems%}
+                <div>
+                    <img src={{item.imageurl}} alt="Item pic" width="250" height="250">
+                    <a href="{% url 'listing' item.id %}"><h5>{{item.title}}</h5></a>
+                    {{item.description | slice:40}}....<br>
+                    Bids start from: ${{item.currentprice}}<br>
+                    <hr>
+                    Created by: {{item.user_id}}
+                </div>
+            {% empty %}
+                <p>No active listings</p>
+            {% endfor %}
+        </div>
+        <hr>
+    </div>
+
+{% endblock %}
