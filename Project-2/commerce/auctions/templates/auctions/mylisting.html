@@ -7,7 +7,7 @@
         <hr>
         {% for i in listinglist %}
             <div class="clear-fix">
-                <img src={{i.0.imageurl}} alt="Item-pic" class="mr-4 mb-4 float-left" width="300" height="300">
+                <img src={{i.0.imageurl}} alt="{{i.0.title}} pic" class="mr-4 mb-4 float-left" width="300" height="300">
                 <div>
                     <a href="{% url 'listing' i.0.id %}"><h3>{{i.0.title}}</h3></a>
                     <h5>Description: </h5>

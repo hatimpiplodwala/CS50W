@@ -12,7 +12,7 @@
         <div id = "listingpage">
             {% for item in activeitems%}
                 <div>
-                    <img src={{item.imageurl}} alt="Item pic" width="250" height="250">
+                    <img src={{item.imageurl}} alt="{{item.title}} pic" width="250" height="250">
                     <a href="{% url 'listing' item.id %}"><h5>{{item.title}}</h5></a>
                     {{item.description | slice:40}}....<br>
                     Bids start from: ${{item.currentprice}}<br>
