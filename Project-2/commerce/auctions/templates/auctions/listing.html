@@ -9,6 +9,7 @@
     <div class="container left" id="listing">
         {% if listing %}
             <h3>{{listing.title}}</h3>
+            <p>(Created by: {{listing.user_id}})</p>
             <hr>
             <div class="clear-fix">
                 <img src={{listing.imageurl}} alt="Item-pic" class="mr-4 mb-4 float-left" width="300" height="300">

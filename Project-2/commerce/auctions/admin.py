@@ -3,24 +3,24 @@ from django.contrib import admin
 from .models import *
 
 class ListingAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "title", "startingbid", "currentprice", "category")
+    list_display = ("title", "user_id", "startingbid", "currentprice", "category")
     
 class BidAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "item", "amount")
+    list_display = ("item", "user_id", "amount")
     
     @admin.display(empty_value='???')
     def item(self, obj):
         return obj.item_id.title
     
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "item", "comment")
+    list_display = ("item", "user_id", "comment")
     
     @admin.display(empty_value='???')
     def item(self, obj):
         return obj.item_id.title
     
 class WinnerAdmin(admin.ModelAdmin):
-    list_display = ("user_id", "item", "winning_bid")
+    list_display = ("item", "user_id", "winning_bid")
     
     @admin.display(empty_value='???')
     def item(self, obj):
