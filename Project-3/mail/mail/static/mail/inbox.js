@@ -23,32 +23,35 @@ function compose_email() {
   document.querySelector('#compose-subject').value = '';
   document.querySelector('#compose-body').value = '';
   document.querySelector('#compose-form').onsubmit = () => {
-    fetch('/emails', {
-      method: 'POST',
-      body: JSON.stringify({
-          recipients: document.querySelector('#compose-recipients').value,
-          subject: document.querySelector('#compose-subject').value,
-          body: document.querySelector('#compose-body').value
-      })
-    })
-    .then(response => {
-      clone = response.clone();
-      if (response.status === 400 || response.status === 404){
-        clone.json()
-        .then(error => compose_error(error))
-      }
-      else{
-        localStorage.clear();
-        load_mailbox('sent');
-      }
-    })
-
+    send_request();
     return false;
   }
 }
 
+function send_request(){
+  fetch('/emails', {
+    method: 'POST',
+    body: JSON.stringify({
+        recipients: document.querySelector('#compose-recipients').value,
+        subject: document.querySelector('#compose-subject').value,
+        body: document.querySelector('#compose-body').value
+    })
+  })
+  .then(response => {
+    clone = response.clone();
+    if (response.status === 400 || response.status === 404){
+      clone.json()
+      .then(error => compose_error(error))
+    }
+    else{
+      localStorage.clear();
+      load_mailbox('sent');
+    }
+  })
+}
+
 function compose_error(error){
-  console.log(error.error);
+  console.log(error);
   const errorblock = document.querySelector('#compose-error');
   errorblock.replaceChildren();
   const element = document.createElement('div');
@@ -99,7 +102,7 @@ function load_mailbox(mailbox) {
         }
         element.innerHTML = `<div>${email.sender}</div> <div>${email.subject}</div> <div>${email.timestamp}</div>`;
         element.addEventListener('click', function(){
-          openemail(mailbox, email);
+          openemail(email);
         });
         document.querySelector("#emails-view").append(element);
       }))
@@ -107,7 +110,7 @@ function load_mailbox(mailbox) {
   localStorage.clear();
 }
 
-function openemail(mailbox, email){
+function openemail(email){
  
   fetch(`/emails/${email.id}`, {
     method: 'PUT',
@@ -131,36 +134,35 @@ function openemail(mailbox, email){
   bodyel.innerHTML = `<p>${email.body}</p>`;
   view.append(bodyel);
 
-  if (mailbox != 'sent'){
-    replybtn=document.createElement('button');
-    replybtn.className="emailbtn";
+  replybtn=document.createElement('button');
+  replybtn.className="emailbtn";
 
-    replyimg=document.createElement('img');
-    replyimg.src="https://cdn-icons-png.flaticon.com/512/747/747333.png";
-    replyimg.width=14;
-    replyimg.height=14;
-    replybtn.append(replyimg);
-    replybtn.innerHTML+="Reply";
+  replyimg=document.createElement('img');
+  replyimg.src="https://cdn-icons-png.flaticon.com/512/747/747333.png";
+  replyimg.width=14, replyimg.height=14;
+    
+  replybtn.append(replyimg);
+  replybtn.innerHTML+="Reply";
 
-    replybtn.addEventListener('click', function(){
-      reply(email);
-    })
-    view.append(replybtn);
+  replybtn.addEventListener('click', function(){
+    reply(email);
+  })
+  view.append(replybtn);
 
-    archivebtn=document.createElement('button');
-    archivebtn.className="emailbtn";
-    if (email.archived){
-      archivebtn.innerHTML="Unarchive";
-    }
-    else{
-      archivebtn.innerHTML="Archive";
-    }
-    archivebtn.addEventListener('click', function(){
-      archive(email);
-    })
-    view.append(archivebtn);
+  archivebtn=document.createElement('button');
+  archivebtn.className="emailbtn";
+  if (email.archived){
+    archivebtn.innerHTML="Unarchive";
   }
+  else{
+    archivebtn.innerHTML="Archive";
+  }
+  archivebtn.addEventListener('click', function(){
+    archive(email);
+  })
+  view.append(archivebtn);
 }
+
 
 function archive(email){
   if (email.archived){
@@ -179,8 +181,8 @@ function archive(email){
       })
     })
   }
-  localStorage.clear();
   load_mailbox('inbox');
+  window.location.reload();
 }
 
 function reply(email){
@@ -198,28 +200,12 @@ function reply(email){
     else{
       document.querySelector('#compose-subject').value = `RE: ${email.subject}`;
     }
+    document.querySelector('#compose-recipients').disabled = true;
+    document.querySelector('#compose-subject').disabled = true;
+
     document.querySelector('#compose-body').value = '\r\n'+'\r\n'+`>>On ${email.timestamp} ${email.sender} wrote:`+'\r\n'+`${email.body}`;
     document.querySelector('#compose-form').onsubmit = () => {
-      fetch('/emails', {
-        method: 'POST',
-        body: JSON.stringify({
-            recipients: document.querySelector('#compose-recipients').value,
-            subject: document.querySelector('#compose-subject').value,
-            body: document.querySelector('#compose-body').value
-        })
-      })
-      .then(response => {
-        clone = response.clone();
-        if (response.status === 400 || response.status === 404){
-          clone.json()
-          .then(error => compose_error(error))
-        }
-        else{
-          localStorage.clear();
-          load_mailbox('sent');
-        }
-      })
-  
-    return false;
-  }
+      send_request();
+      return false;
+    }
 }
