@@ -13,6 +13,23 @@
     text-align: left;
 }
 
+.btn{
+    border-radius: 20px;
+    width: auto;
+    min-width: 125px;
+}
+
+.login{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    padding: 4%;
+    max-width: 70%;
+    width: auto;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
 #listingpage, #categorypage{
     display: flex;
     flex-wrap: wrap;
@@ -27,11 +44,14 @@
     width: 300px;
     height: auto;
     overflow: hidden;
-    border: 2px solid lightgrey;
     text-align: left;
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
+}
+
+#listingpage > div{
+    border: 2px solid lightgrey;
 }
 
 #listingpage > p, #categorypage > p{
@@ -68,6 +88,9 @@ h5{
     margin-top: 10px;
 }
 
+hr{
+    border-top: 1px solid lightgrey;
+}
 img{
     margin-right: auto;
     margin-left: auto;
@@ -104,10 +127,14 @@ img{
 
 button{
     margin-top: 10px;
+    border-radius: 20px;
+    width: auto;
+    min-width: 125px;
 }
 
 textarea[name="comment"]{
-    width: 95%
+    width: 95%;
+    padding: 5px;
 }
 
 #listing > div > div > a{
@@ -127,4 +154,40 @@ div[class="clear-fix"]{
 
 div[class="clear-fix"] > img{
     margin-left: 0;
+}
+
+.navbar{
+    border-bottom: 1px solid lightgrey;
+}
+
+.funcbutton{
+    background-color: #0053a0;
+    font-weight: 400;
+    width: auto;
+    min-width: 150px;
+}
+
+.waitbutton{
+    background-color: white;
+    color: #0053a0;
+    font-weight: 400;
+    width: auto;
+    min-width: 150px;
+}
+
+.waitbutton:hover{
+    background-color: rgb(213, 230, 255);
+    color:#0053a0
+}
+
+button[name="category"]{
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+button[class = "navbar-toggler"]{
+    width: auto;
+    min-width: auto;
 }

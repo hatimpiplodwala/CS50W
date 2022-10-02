@@ -27,7 +27,7 @@
                             <form action="{% url 'closebid' listing.id %}" method="post">
                                 {% csrf_token %}
                                 <div class="center">
-                                    <input type="submit" class="btn btn-primary" value="Close Bid">
+                                    <input type="submit" class="btn btn-primary funcbutton" value="Close Bid">
                                 </div>
                             </form>
                         {% else %}
@@ -38,12 +38,12 @@
                                     <input type="number" name="bid" value = {{listing.currentprice}} min={{listing.currentprice}}>
                                 </div>
                                 <div class="center">
-                                    <input type="submit" class="btn btn-primary" value="Place Bid">
+                                    <input type="submit" class="btn btn-primary funcbutton" value="Place Bid">
                                 </div>
                             </form>
                             <form class="center" action="{% url 'alterwatchlist' listing.id %}" method="post">
                                 {% csrf_token %}
-                                <button class="btn btn-primary">
+                                <button class="btn btn-primary waitbutton">
                                     {% if onwatchlist %}
                                         Remove from Watchlist
                                     {% else %}
@@ -61,7 +61,7 @@
                                 <input type="number" name="bid" value = {{listing.currentprice}} min={{listing.currentprice}}>
                             </div>
                             <div class="center">
-                                <input type="submit" class="btn btn-primary" value="Place Bid">
+                                <input type="submit" class="btn btn-primary funcbutton" value="Place Bid">
                             </div>
                         </form>
                     {% endif %}
@@ -79,7 +79,7 @@
                 <form action="{% url 'addcomment' listing.id %}" method="post">
                     {% csrf_token %}
                     <textarea cols="120" name = "comment" placeholder="Enter your comment: less than 100 characters" maxlength="100"></textarea><br>
-                    <input type="submit" class="btn btn-primary" value="Add Comment">
+                    <input type="submit" class="btn btn-primary funcbutton" value="Add Comment">
                 </form> 
             {% endif %}
         {% else %}

@@ -6,7 +6,7 @@
         <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endif %}
 
-    <div class="container" id="loginfield">
+    <div class="container login center">
         <h3>Register</h3>
         <form action="{% url 'register' %}" method="post">
             {% csrf_token %}

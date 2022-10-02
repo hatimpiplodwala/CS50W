@@ -22,7 +22,7 @@
                     {% if user.is_authenticated %}
                         <form class="center" action="{% url 'viewwatchlist' %}" method="post">
                             {% csrf_token %}
-                            <button class="btn btn-primary" name="itemtochange" value={{i.0.id}}>
+                            <button class="btn btn-primary waitbutton" name="itemtochange" value={{i.0.id}}>
                                 Remove from Watchlist
                             </button>
                         </form>
