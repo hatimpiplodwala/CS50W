@@ -11,6 +11,17 @@ textarea {
     padding-bottom: 4%;   
 }
 
+.login{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 10%;
+    padding: 4%;
+    max-width: 70%;
+    width: auto;
+    border: 1px solid lightgrey;
+    border-radius: 5px;
+}
+
 hr{
     background-color: silver;
 }
@@ -78,10 +89,17 @@ h3{
 }
 
 .emailbtn{
-    margin: 10px;
-    padding: 10px;
-    width: auto;
+    margin: 5px;
+    margin-top: 10px;
+    padding: 7px;
+    width: 125px;
     border-radius: 20px;
-    border: 1px solid silver;
-    background-color: #f2f6fc;
+    border: 1px solid grey;
+    background-color: white;
+}
+
+input[value = "Send"]{
+    border-radius: 20px;
+    width: 100px;
+    background-color: #0b57d0;
 }
